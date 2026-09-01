@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ListingAI - AI-Powered Product Listing Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-logo">
+        <span class="logo-icon">✨</span>
+        <span class="logo-text">ListingAI</span>
+      </div>
+      <ul class="navbar-menu">
+        <li><a href="#" class="nav-link">Features</a></li>
+        <li><a href="#" class="nav-link">Pricing</a></li>
+        <li><a href="#" class="nav-link">Docs</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Transform Your Product Photos Into Perfect Listings</h1>
+      <p class="hero-subtitle">AI-powered image generation and SEO copywriting for Etsy, Amazon, Flipkart & Meesho</p>
+    </div>
+
+    <!-- Upload Card -->
+    <div class="upload-card">
+      <div class="upload-area" id="uploadArea">
+        <div class="upload-icon">📸</div>
+        <h2 class="upload-title">Drag & Drop Your Product Photo</h2>
+        <p class="upload-subtitle">or click to browse</p>
+        <input type="file" id="imageInput" class="file-input" accept="image/*" hidden>
+      </div>
+    </div>
+  </section>
+
+  <!-- Progress Bar Section -->
+  <section class="progress-section" id="progressSection" style="display: none;">
+    <div class="progress-container">
+      <div class="progress-label">
+        <span id="progressText">Analyzing your product...</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Output Section -->
+  <section class="output-section" id="outputSection" style="display: none;">
+    <div class="output-container">
+      <!-- Gallery Section -->
+      <div class="gallery-section">
+        <h2 class="section-title">Generated Lifestyle Images</h2>
+        <div class="gallery-grid" id="galleryGrid">
+          <!-- Images will be inserted here -->
+        </div>
+      </div>
+
+      <!-- Copy Tabs Section -->
+      <div class="copy-section">
+        <h2 class="section-title">Optimized Listing Copy</h2>
+        <div class="tabs-container">
+          <div class="tabs-header">
+            <button class="tab-button active" data-tab="etsy">Etsy</button>
+            <button class="tab-button" data-tab="amazon">Amazon</button>
+            <button class="tab-button" data-tab="flipkart">Flipkart</button>
+            <button class="tab-button" data-tab="meesho">Meesho</button>
+          </div>
+
+          <div class="tabs-content">
+            <!-- Etsy Tab -->
+            <div class="tab-pane active" id="etsy-tab">
+              <div class="copy-block">
+                <label class="copy-label">Product Title</label>
+                <div class="copy-text" id="etsy-title"></div>
+                <button class="copy-button" data-target="etsy-title">Copy</button>
+              </div>
+              <div class="copy-block">
+                <label class="copy-label">Product Description</label>
+                <div class="copy-text" id="etsy-description"></div>
+                <button class="copy-button" data-target="etsy-description">Copy</button>
+              </div>
+            </div>
+
+            <!-- Amazon Tab -->
+            <div class="tab-pane" id="amazon-tab">
+              <div class="copy-block">
+                <label class="copy-label">Product Title</label>
+                <div class="copy-text" id="amazon-title"></div>
+                <button class="copy-button" data-target="amazon-title">Copy</button>
+              </div>
+              <div class="copy-block">
+                <label class="copy-label">Product Description</label>
+                <div class="copy-text" id="amazon-description"></div>
+                <button class="copy-button" data-target="amazon-description">Copy</button>
+              </div>
+            </div>
+
+            <!-- Flipkart Tab -->
+            <div class="tab-pane" id="flipkart-tab">
+              <div class="copy-block">
+                <label class="copy-label">Product Title</label>
+                <div class="copy-text" id="flipkart-title"></div>
+                <button class="copy-button" data-target="flipkart-title">Copy</button>
+              </div>
+              <div class="copy-block">
+                <label class="copy-label">Product Description</label>
+                <div class="copy-text" id="flipkart-description"></div>
+                <button class="copy-button" data-target="flipkart-description">Copy</button>
+              </div>
+            </div>
+
+            <!-- Meesho Tab -->
+            <div class="tab-pane" id="meesho-tab">
+              <div class="copy-block">
+                <label class="copy-label">Product Title</label>
+                <div class="copy-text" id="meesho-title"></div>
+                <button class="copy-button" data-target="meesho-title">Copy</button>
+              </div>
+              <div class="copy-block">
+                <label class="copy-label">Product Description</label>
+                <div class="copy-text" id="meesho-description"></div>
+                <button class="copy-button" data-target="meesho-description">Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reset Button -->
+    <div class="reset-section">
+      <button class="reset-button" id="resetButton">← Generate Another Listing</button>
+    </div>
+  </section>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close">&times;</button>
+      <img id="lightboxImage" src="" alt="Enlarged product image">
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
