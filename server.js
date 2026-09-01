@@ -63,8 +63,8 @@ app.post('/api/generate-copy', upload.single('image'), async (req, res) => {
     const imageBuffer = fs.readFileSync(imagePath);
     const base64Image = imageBuffer.toString('base64');
 
-    // Use gemini-1.5-pro for image analysis (most reliable)
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
+    // Use gemini-2.5-flash (latest available model)
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
     // Analyze the image with Gemini
     const analysisPrompt = `Analyze this product image (handcrafted carpet, rug, or textile) and extract the following information in JSON format:
@@ -89,7 +89,7 @@ Be concise and specific. Focus on visual characteristics.`;
       }
     };
 
-    console.log('Analyzing image with gemini-1.5-pro...');
+    console.log('Analyzing image with gemini-2.5-flash...');
     const analysisResult = await model.generateContent([analysisPrompt, imagePart]);
     const analysisText = analysisResult.response.text();
     
