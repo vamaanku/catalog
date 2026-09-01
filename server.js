@@ -63,8 +63,8 @@ app.post('/api/generate-copy', upload.single('image'), async (req, res) => {
     const imageBuffer = fs.readFileSync(imagePath);
     const base64Image = imageBuffer.toString('base64');
 
-    // Get the model
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    // Use gemini-pro-vision for image analysis
+    const visionModel = genAI.getGenerativeModel({ model: 'gemini-pro-vision' });
 
     // Analyze the image with Gemini
     const analysisPrompt = `Analyze this product image (handcrafted carpet, rug, or textile) and extract the following information in JSON format:
@@ -89,7 +89,8 @@ Be concise and specific. Focus on visual characteristics.`;
       }
     };
 
-    const analysisResult = await model.generateContent([analysisPrompt, imagePart]);
+    console.log('Analyzing image with gemini-pro-vision...');
+    const analysisResult = await visionModel.generateContent([analysisPrompt, imagePart]);
     const analysisText = analysisResult.response.text();
     
     // Parse the JSON response
@@ -111,6 +112,11 @@ Be concise and specific. Focus on visual characteristics.`;
       };
     }
 
+    console.log('Product data extracted:', productData);
+
+    // Use gemini-pro for text generation
+    const textModel = genAI.getGenerativeModel({ model: 'gemini-pro' });
+
     // Generate SEO copy for each marketplace
     const copyPrompts = {
       etsy: `Write an engaging, SEO-optimized product title and description for Etsy (max 140 chars for title, 2000 chars for description). Format as JSON: {"title": "...", "description": "..."}. Product: ${JSON.stringify(productData)}`,
@@ -120,8 +126,10 @@ Be concise and specific. Focus on visual characteristics.`;
     };
 
     const copyResults = {};
+    
     for (const [platform, prompt] of Object.entries(copyPrompts)) {
-      const copyResult = await model.generateContent(prompt);
+      console.log(`Generating copy for ${platform}...`);
+      const copyResult = await textModel.generateContent(prompt);
       const copyText = copyResult.response.text();
       try {
         const jsonMatch = copyText.match(/\{[\s\S]*\}/);
@@ -134,6 +142,8 @@ Be concise and specific. Focus on visual characteristics.`;
         };
       }
     }
+
+    console.log('SEO copy generated for all platforms');
 
     // Construct Pollinations.ai image URLs based on extracted traits
     const imagePrompts = [
@@ -148,6 +158,8 @@ Be concise and specific. Focus on visual characteristics.`;
       const encodedPrompt = encodeURIComponent(prompt);
       return `https://image.pollinations.ai/prompt/${encodedPrompt}`;
     });
+
+    console.log('Generated image URLs');
 
     // Clean up uploaded file
     fs.unlinkSync(imagePath);
